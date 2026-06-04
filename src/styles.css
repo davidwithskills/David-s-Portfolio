@@ -257,6 +257,31 @@ textarea:focus-visible {
   box-shadow: 0 0 26px rgba(56, 189, 248, 0.4);
 }
 
+.nexttech-screen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  height: 135px;
+}
+
+.nexttech-screen span {
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.78), rgba(14, 165, 233, 0.16));
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.18);
+}
+
+.nexttech-screen span:first-child {
+  grid-row: span 2;
+}
+
+.nexttech-screen div {
+  border: 1px solid rgba(56, 189, 248, 0.32);
+  border-radius: 10px;
+  background:
+    linear-gradient(90deg, rgba(56, 189, 248, 0.18) 48%, transparent 48%),
+    rgba(15, 23, 42, 0.65);
+}
+
 .contribution-grid {
   display: grid;
   grid-template-columns: repeat(16, minmax(0, 1fr));

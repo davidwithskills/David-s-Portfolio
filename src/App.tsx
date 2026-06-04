@@ -20,12 +20,11 @@ import {
   Send,
   ServerCog,
   ShieldCheck,
-  Terminal,
   TestTube2,
   X,
 } from "lucide-react";
 
-type ProjectCategory = "All" | "Web App" | "Game" | "Startup";
+type ProjectCategory = "All" | "Web App" | "Game";
 
 type Project = {
   title: string;
@@ -39,7 +38,7 @@ type Project = {
   visual: string;
 };
 
-const navItems = ["Home", "About", "Skills", "Projects", "Education", "Contact"];
+const navItems = ["Home", "About", "Skills", "Projects", "Experience", "Education", "Contact"];
 
 const skills = [
   {
@@ -113,14 +112,32 @@ const projects: Project[] = [
     visual: "ludo",
   },
   {
-    title: "Fruitful Bough Startup",
-    category: "Startup",
+    title: "NextTech",
+    category: "Web App",
+    demo: "https://davidwithskills.github.io/NextTech/",
+    github: "https://github.com/davidwithskills/NextTech",
+    technologies: ["HTML", "CSS", "JavaScript"],
+    description:
+      "A modern technology-focused web project presenting digital solutions through a clean, responsive, and professional interface.",
+    features: ["Responsive layout", "Modern landing page", "Interactive interface", "Professional web design"],
+    visual: "nexttech",
+  },
+];
+
+const workExperience = [
+  {
     role: "Founder / Developer",
-    technologies: ["Product Strategy", "Software Development", "Digital Innovation"],
+    company: "Fruitful Bough Startup",
     description:
       "A startup initiative focused on creating innovative technology solutions and digital products while demonstrating entrepreneurship and product development skills.",
-    features: ["Business development", "Product planning", "Software development", "Digital innovation"],
-    visual: "startup",
+    highlights: ["Business development", "Product planning", "Software development", "Digital innovation"],
+  },
+  {
+    role: "Robotics Trainer",
+    company: "LEGO MindStorms",
+    description:
+      "Trained students in robotics fundamentals using LEGO MindStorms kits, helping learners build, program, test, and troubleshoot interactive robot systems.",
+    highlights: ["Robotics education", "Student mentoring", "Robot programming", "Troubleshooting"],
   },
 ];
 
@@ -174,6 +191,7 @@ function App() {
         <About />
         <Skills />
         <Projects activeFilter={activeFilter} setActiveFilter={setActiveFilter} projects={filteredProjects} />
+        <WorkExperience />
         <Process />
         <Education />
         <GithubActivity />
@@ -262,9 +280,6 @@ function Hero() {
     <section id="home" className="relative flex min-h-screen items-center px-5 pb-16 pt-28 lg:px-8">
       <div className="mx-auto grid w-full max-w-7xl items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <span className="inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/10 px-4 py-2 text-sm font-medium text-accent">
-            <Terminal size={16} /> Internship-ready software portfolio
-          </span>
           <h1 className="mt-7 text-5xl font-black leading-tight text-white sm:text-6xl lg:text-7xl">David Yusuf</h1>
           <p className="mt-5 text-xl font-semibold text-accent sm:text-2xl">Software Engineering Student | Full-Stack Developer</p>
           <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
@@ -275,7 +290,7 @@ function Hero() {
             <button onClick={() => scrollToSection("Projects")} className="btn-primary">
               View Projects <ArrowRight size={18} />
             </button>
-            <a className="btn-secondary" href="/David-Yusuf-Internship-CV.docx" download>
+            <a className="btn-secondary" href={`${import.meta.env.BASE_URL}David-Yusuf-Internship-CV.pdf`} download>
               Download CV
             </a>
             <a className="btn-secondary" href="https://github.com/davidwithskills" target="_blank" rel="noreferrer">
@@ -444,7 +459,7 @@ function Projects({
   setActiveFilter: React.Dispatch<React.SetStateAction<ProjectCategory>>;
   projects: Project[];
 }) {
-  const filters: ProjectCategory[] = ["All", "Web App", "Game", "Startup"];
+  const filters: ProjectCategory[] = ["All", "Web App", "Game"];
 
   return (
     <motion.section id="projects" className="section" {...sectionMotion}>
@@ -572,9 +587,41 @@ function ProjectVisual({ type, title }: { type: string; title: string }) {
               <div />
             </div>
           )}
+          {type === "nexttech" && (
+            <div className="nexttech-screen">
+              <span />
+              <span />
+              <span />
+              <div />
+            </div>
+          )}
         </div>
       </div>
     </div>
+  );
+}
+
+function WorkExperience() {
+  return (
+    <motion.section id="experience" className="section" {...sectionMotion}>
+      <SectionHeader eyebrow="Work Experience" title="Entrepreneurship And Product Development" />
+      <div className="grid gap-6 lg:grid-cols-2">
+        {workExperience.map((item) => (
+          <article className="glass-card p-7" key={item.company}>
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent">{item.company}</p>
+            <h3 className="mt-3 text-2xl font-bold">{item.role}</h3>
+            <p className="mt-4 leading-8 text-slate-300">{item.description}</p>
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+              {item.highlights.map((highlight) => (
+                <li key={highlight} className="flex items-center gap-2 text-sm text-slate-300">
+                  <CheckCircle2 size={16} className="shrink-0 text-accent" /> {highlight}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </motion.section>
   );
 }
 
