@@ -19,7 +19,5 @@ pnpm-debug.log*
 *.log
 *.tsbuildinfo
 /.pnp.*
-/.yalcnode_modules/
-dist/
-*.tsbuildinfo
-*.log
+/.yalc
+~$*
