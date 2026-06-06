@@ -34,8 +34,16 @@ type Project = {
   role?: string;
   technologies: string[];
   description: string;
+  problem: string;
+  solution: string;
   features: string[];
+  challenges: string[];
+  learned: string[];
+  future: string[];
+  timeline: string[];
+  workflow: string[];
   visual: string;
+  featured?: boolean;
 };
 
 const navItems = ["Home", "About", "Skills", "Projects", "Experience", "Education", "Contact"];
@@ -86,8 +94,30 @@ const projects: Project[] = [
     technologies: ["HTML", "JavaScript"],
     description:
       "A logistics and delivery management web application designed to simplify package tracking and shipment coordination through an intuitive and responsive interface.",
+    problem:
+      "Small logistics teams need a clear way to communicate shipment status, surface delivery information quickly, and reduce confusion around package movement.",
+    solution:
+      "SwiftShip presents shipment tracking, operational information, and dashboard-style interactions in a responsive web interface that feels familiar and easy to scan.",
     features: ["Shipment tracking", "Responsive design", "Interactive dashboard", "User-friendly interface"],
+    challenges: [
+      "Designing a dashboard that stays readable on small screens",
+      "Organizing shipment information without overwhelming the user",
+      "Creating interactive behavior with a lightweight frontend stack",
+    ],
+    learned: [
+      "How to structure user flows around operational tasks",
+      "How responsive layouts improve trust in business tools",
+      "How dashboard UI patterns support fast decision-making",
+    ],
+    future: [
+      "Add authenticated customer and admin portals",
+      "Connect tracking cards to a real shipment database",
+      "Introduce delivery status notifications and analytics",
+    ],
+    timeline: ["Requirements mapping", "Interface wireframe", "Dashboard build", "Responsive testing", "Deployment"],
+    workflow: ["Analyze delivery workflow", "Model shipment states", "Build UI components", "Test across breakpoints"],
     visual: "logistics",
+    featured: true,
   },
   {
     title: "Snake Game",
@@ -97,7 +127,28 @@ const projects: Project[] = [
     technologies: ["HTML", "Python"],
     description:
       "A modern implementation of the classic Snake Game featuring smooth gameplay mechanics, collision detection, and score management.",
+    problem:
+      "Classic games are useful practice grounds for learning loops, user input, state updates, collision logic, and real-time feedback.",
+    solution:
+      "The Snake Game rebuilds the familiar gameplay loop with responsive controls, scoring, and collision handling to demonstrate core programming logic.",
     features: ["Real-time gameplay", "Score tracking", "Collision detection", "Responsive controls"],
+    challenges: [
+      "Keeping movement consistent while user input changes direction",
+      "Detecting self-collisions and wall collisions reliably",
+      "Balancing game speed with responsive player control",
+    ],
+    learned: [
+      "How real-time state changes affect gameplay feel",
+      "How collision detection depends on predictable data structures",
+      "How small features like scoring improve replay value",
+    ],
+    future: [
+      "Add difficulty levels and pause/resume controls",
+      "Store high scores locally",
+      "Improve mobile touch controls and visual effects",
+    ],
+    timeline: ["Game loop design", "Movement logic", "Collision rules", "Score system", "Play testing"],
+    workflow: ["Define board state", "Handle keyboard input", "Update frame state", "Validate collision outcomes"],
     visual: "snake",
   },
   {
@@ -108,7 +159,28 @@ const projects: Project[] = [
     technologies: ["TypeScript", "CSS"],
     description:
       "A browser-based Ludo game focused on game logic implementation, interactive gameplay, and TypeScript-based architecture.",
+    problem:
+      "Board games require predictable state management, turn sequencing, and user interactions that remain understandable as game complexity grows.",
+    solution:
+      "The Ludo Game uses TypeScript-oriented structure and an interactive board to separate game state, turn behavior, and visual feedback.",
     features: ["Turn-based gameplay", "Interactive game board", "TypeScript architecture", "State management"],
+    challenges: [
+      "Representing turn-based rules in a maintainable way",
+      "Keeping UI state synchronized with game state",
+      "Designing board interactions that feel clear to players",
+    ],
+    learned: [
+      "How typed data models make game logic easier to reason about",
+      "How state transitions shape user experience",
+      "How visual feedback helps users understand rules",
+    ],
+    future: [
+      "Add multiplayer support",
+      "Implement full rule validation and dice animations",
+      "Add save/resume game state",
+    ],
+    timeline: ["Rule breakdown", "State model", "Board interface", "Turn handling", "Interaction polish"],
+    workflow: ["Map game entities", "Implement turn flow", "Render board state", "Test player actions"],
     visual: "ludo",
   },
   {
@@ -119,7 +191,28 @@ const projects: Project[] = [
     technologies: ["HTML", "CSS", "JavaScript"],
     description:
       "A modern technology-focused web project presenting digital solutions through a clean, responsive, and professional interface.",
+    problem:
+      "Technology brands need a polished web presence that communicates services clearly and feels credible across desktop and mobile devices.",
+    solution:
+      "NextTech uses a modern landing-page structure, responsive content sections, and clean interaction patterns to present a professional digital brand.",
     features: ["Responsive layout", "Modern landing page", "Interactive interface", "Professional web design"],
+    challenges: [
+      "Creating a premium first impression with simple web technologies",
+      "Balancing visual appeal with clear content hierarchy",
+      "Maintaining responsive spacing across viewport sizes",
+    ],
+    learned: [
+      "How SaaS-style presentation improves perceived product quality",
+      "How consistent spacing and typography shape trust",
+      "How interaction details make static websites feel more polished",
+    ],
+    future: [
+      "Add real service pages and customer testimonials",
+      "Introduce contact form submission handling",
+      "Add performance analytics and SEO content expansion",
+    ],
+    timeline: ["Brand direction", "Landing layout", "Responsive sections", "Interaction polish", "Deployment"],
+    workflow: ["Plan page sections", "Build responsive components", "Refine visual hierarchy", "Test content flow"],
     visual: "nexttech",
   },
 ];
@@ -462,9 +555,15 @@ function Projects({
   const filters: ProjectCategory[] = ["All", "Web App", "Game"];
 
   return (
-    <motion.section id="projects" className="section" {...sectionMotion}>
+    <section id="projects" className="section">
       <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
-        <SectionHeader eyebrow="Featured Projects" title="Proof Of Problem-Solving" compact />
+        <div>
+          <SectionHeader eyebrow="Project Case Studies" title="Engineering Decisions, Product Thinking, And Delivery" compact />
+          <p className="mt-4 max-w-2xl leading-7 text-slate-300">
+            Each project is presented as a software engineering case study, showing the problem, solution, technical
+            decisions, implementation workflow, and next improvements.
+          </p>
+        </div>
         <div className="flex flex-wrap gap-2" aria-label="Project filters">
           {filters.map((filter) => (
             <button
@@ -482,68 +581,138 @@ function Projects({
         </div>
       </div>
 
-      <motion.div layout className="mt-10 grid gap-6 lg:grid-cols-2">
-        {projects.map((project) => (
-          <ProjectCard key={project.title} project={project} />
+      <motion.div layout className="mt-12 space-y-10">
+        {projects.map((project, index) => (
+          <ProjectCaseStudy key={project.title} project={project} index={index} />
         ))}
       </motion.div>
-    </motion.section>
+    </section>
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCaseStudy({ project, index }: { project: Project; index: number }) {
+  const reversed = index % 2 === 1;
+
   return (
-    <motion.article layout initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="glass-card overflow-hidden">
-      <ProjectVisual type={project.visual} title={project.title} />
-      <div className="p-6">
-        <div className="flex flex-wrap items-start justify-between gap-3">
+    <motion.article
+      layout
+      initial={false}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.65, delay: index * 0.05 }}
+      className={`case-study ${project.featured ? "featured-case-study" : ""}`}
+    >
+      {project.featured && <span className="featured-ribbon">Featured Project</span>}
+      <div className={`grid gap-8 xl:grid-cols-[1.06fr_0.94fr] ${reversed ? "xl:[&>*:first-child]:order-2" : ""}`}>
+        <div className="space-y-7">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.22em] text-accent">{project.category}</p>
+              <h3 className="mt-3 text-3xl font-black text-white sm:text-4xl">{project.title}</h3>
+              <p className="mt-4 max-w-3xl leading-8 text-slate-300">{project.description}</p>
+            </div>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <CaseBlock title="Problem" body={project.problem} />
+            <CaseBlock title="Solution" body={project.solution} />
+          </div>
+
           <div>
-            <p className="text-sm font-semibold text-accent">{project.category}</p>
-            <h3 className="mt-1 text-2xl font-bold">{project.title}</h3>
-            {project.role && <p className="mt-1 text-sm text-slate-400">{project.role}</p>}
+            <p className="case-label">Technologies</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {project.technologies.map((tech) => (
+                <span key={tech} className="tech-badge">
+                  {tech}
+                </span>
+              ))}
+            </div>
           </div>
-          <div className="flex gap-2">
-            {project.github && (
-              <a className="icon-link" href={project.github} target="_blank" rel="noreferrer" aria-label={`${project.title} GitHub`}>
-                <Github size={18} />
-              </a>
-            )}
+
+          <div className="flex flex-wrap gap-3">
             {project.demo && (
-              <a className="icon-link" href={project.demo} target="_blank" rel="noreferrer" aria-label={`${project.title} live demo`}>
-                <ExternalLink size={18} />
+              <a className="btn-primary py-2.5 text-sm" href={project.demo} target="_blank" rel="noreferrer">
+                Live Demo <ExternalLink size={16} />
+              </a>
+            )}
+            {project.github && (
+              <a className="btn-secondary py-2.5 text-sm" href={project.github} target="_blank" rel="noreferrer">
+                GitHub <Github size={16} />
               </a>
             )}
           </div>
         </div>
-        <p className="mt-4 leading-7 text-slate-300">{project.description}</p>
-        <div className="mt-5 flex flex-wrap gap-2">
-          {project.technologies.map((tech) => (
-            <span key={tech} className="rounded-md border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
-              {tech}
-            </span>
-          ))}
+
+        <div className="space-y-5">
+          <div className="case-screenshot">
+            <ProjectVisual type={project.visual} title={project.title} />
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {project.features.map((feature) => (
+              <div key={feature} className="feature-pill">
+                <CheckCircle2 size={16} className="shrink-0 text-accent" /> {feature}
+              </div>
+            ))}
+          </div>
         </div>
-        <ul className="mt-5 grid gap-2 sm:grid-cols-2">
-          {project.features.map((feature) => (
-            <li key={feature} className="flex items-center gap-2 text-sm text-slate-300">
-              <CheckCircle2 size={16} className="shrink-0 text-accent" /> {feature}
-            </li>
-          ))}
-        </ul>
-        <div className="mt-6 flex flex-wrap gap-3">
-          {project.demo && (
-            <a className="btn-primary py-2.5 text-sm" href={project.demo} target="_blank" rel="noreferrer">
-              Live Demo <ExternalLink size={16} />
-            </a>
-          )}
-          {project.github && (
-            <a className="btn-secondary py-2.5 text-sm" href={project.github} target="_blank" rel="noreferrer">
-              GitHub <Github size={16} />
-            </a>
-          )}
+      </div>
+
+      <div className="mt-8 grid gap-5 lg:grid-cols-3">
+        <CaseList title="Challenges" items={project.challenges} />
+        <CaseList title="What I Learned" items={project.learned} />
+        <CaseList title="Future Improvements" items={project.future} />
+      </div>
+
+      <div className="mt-8 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="case-panel">
+          <p className="case-label">Project Timeline</p>
+          <div className="mt-5 space-y-4">
+            {project.timeline.map((item, timelineIndex) => (
+              <div key={item} className="timeline-item">
+                <span>{String(timelineIndex + 1).padStart(2, "0")}</span>
+                <p>{item}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="case-panel">
+          <p className="case-label">Engineering Workflow</p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            {project.workflow.map((item) => (
+              <div key={item} className="workflow-step">
+                <Code2 size={16} className="text-accent" />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </motion.article>
+  );
+}
+
+function CaseBlock({ title, body }: { title: string; body: string }) {
+  return (
+    <div className="case-panel">
+      <p className="case-label">{title}</p>
+      <p className="mt-3 leading-7 text-slate-300">{body}</p>
+    </div>
+  );
+}
+
+function CaseList({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div className="case-panel">
+      <p className="case-label">{title}</p>
+      <ul className="mt-4 space-y-3">
+        {items.map((item) => (
+          <li key={item} className="flex gap-3 text-sm leading-6 text-slate-300">
+            <CheckCircle2 size={16} className="mt-1 shrink-0 text-accent" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
@@ -722,7 +891,7 @@ function GithubActivity() {
 function Contact() {
   return (
     <motion.section id="contact" className="section" {...sectionMotion}>
-      <SectionHeader eyebrow="Contact" title="Let’s Build Something Useful" />
+      <SectionHeader eyebrow="Contact" title="Let's Build Something Useful" />
       <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
         <div className="glass-card p-7">
           <h3 className="text-2xl font-bold">Recruiters and collaborators</h3>
@@ -772,7 +941,7 @@ function Contact() {
 function Footer() {
   return (
     <footer className="border-t border-white/10 px-5 py-8 text-center text-sm text-slate-400">
-      <p>© {new Date().getFullYear()} David Yusuf. Software Engineering Portfolio.</p>
+      <p>Copyright {new Date().getFullYear()} David Yusuf. Software Engineering Portfolio.</p>
     </footer>
   );
 }
